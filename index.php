@@ -1,3 +1,21 @@
+<?php
+if(isset($_POST['action']) and $_POST['action'] == 'send')
+{
+	if(!empty($_POST['message']) and !empty($_POST['email']))
+	{
+		$to = 'contact@cbm-groupe.fr';
+		$sujet = 'contact de cbm-groupe.fr';
+		$message = 'Numéro de téléphone: '.$_POST['tel'].'<br>'.'Message: '.$_POST['message'];
+		$header = 'From:'.$_POST['email'].''."\r\n".'Reply-to:'.$_POST['email'].''."\r\n".'X-Mailer:PHP/'.phpversion();
+		mail($to, $sujet, $message, $header);
+		$msg = '<div class="alert alert-success" role="alert">Votre message a été envoyé</div>';
+	}
+	else
+	{
+		$msg = '<div class="alert alert-warning" role="alert">Vous devez remplir tous les champs</div>';
+	}
+};
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -17,9 +35,6 @@
 		body{
 			margin: 0;
 			padding: 0;
-		}
-		header, section, div{
-			border: 1px solid lightgrey;
 		}
 		p{
 			font-size: 1.2em;
@@ -73,8 +88,10 @@
 			<div id="logo" class="col-xs-12 square"></div>
 		</section>
 		</div>
+		<br><br>
 		<h1>Des solutions pour l'entreprise.</h1>
 		<h2>" Distribuer, intégrer et développer les outils de demain "</h2>
+		<?php echo $msg; ?>
 		<div class="row">
 			<section class="col-xs-offset-3 col-xs-3">
 				<div id="wip" class="col-xs-12 rectangle"></div>
@@ -86,6 +103,7 @@
 				</div>
 			</section>
 		</div>
+		<br><br>
 		<h1>Contact</h1>
 		<h2>" Discutons ensemble de votre projet "</h2>
 		<div class=row>
@@ -95,7 +113,7 @@
 						<form class="form-horizontal" role="form" method="post" action="">
 							<div class="form-group">
 			   					<div class="col-md-offset-1 col-md-10">
-									<input type="email" class="form-control" id="inputEmail" placeholder="Email (exemple@gmail.com)" name="mail">
+									<input type="email" class="form-control" id="inputEmail" placeholder="Email (exemple@gmail.com)" name="email">
 			  					</div>
 							</div>
 							<div class="form-group">
@@ -129,5 +147,4 @@
 
 </div>
 </body>
-
 </html>
